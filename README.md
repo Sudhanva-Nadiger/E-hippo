@@ -1,4 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Google Docs - Document 
+Click to open - [LINK](https://docs.google.com/document/d/1J7o0NompBryOrzQWdStWMfEBI9UIx2dbSs1DG3n539s/edit)
 
 ## Getting Started
 
