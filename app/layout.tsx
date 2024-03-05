@@ -10,6 +10,8 @@ import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ModalProvider } from '@/providers/ModalProvider'
 
+import { Toaster } from "@/components/ui/toaster"
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -39,7 +41,7 @@ export default function RootLayout({
               </MaxWidthWrapper>
               {/* <Footer /> */}
             </main>
-            {/* <Toaster position='top-center' richColors /> */}
+            <Toaster  />
           </body>
         </>
       </html>

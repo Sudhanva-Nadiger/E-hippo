@@ -1,13 +1,15 @@
 "use client"
 
-import { useStoreModal } from "@/hooks/use-store-modal"
-import { useForm } from "react-hook-form";
+import { useStoreModal } from "@/hooks/use-store-modal";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 
 
-import Modal from "@/components/ui/modal"
+import Modal from "@/components/ui/modal";
 import { CreateStoreFormData, createStoreFormSchema } from "@/lib/zodSchemas";
 
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -15,12 +17,15 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { Ban, CheckCircle2Icon } from "lucide-react";
+
 
 export const StoreModal = () => {
     const storeModal = useStoreModal();
+    const { toast } = useToast();
 
     const form = useForm<CreateStoreFormData>({
         resolver: zodResolver(createStoreFormSchema),
@@ -29,8 +34,26 @@ export const StoreModal = () => {
         }
     })
 
-    const onSubmit = async (data: CreateStoreFormData) => {
-        //TODO : create new store
+    const { isSubmitting } = form.formState;
+
+    const onSubmit = async (formData: CreateStoreFormData) => {
+        console.log("formData", formData);
+        
+        try {
+            const { data } = await axios.post("/api/store", formData)
+            toast({
+                title: data?.name || "Success",
+                description: "Successfully created new store!",
+                className: "bg-white h-fit p-4 w-fit",
+                icon: <CheckCircle2Icon className="bg-green-500 w-6 h-6 rounded-full text-white" />,
+            })
+        } catch (error) {
+            toast({
+                title: "Something Went Wrong!",
+                className: "bg-white h-fit p-4 w-fit",
+                icon: <Ban className="bg-red-500 w-6 h-6 rounded-full text-white" />,
+            })
+        }
     }
 
     return (
@@ -44,6 +67,7 @@ export const StoreModal = () => {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <FormField
+                            disabled={isSubmitting}
                             control={form.control}
                             name="name"
                             render={({ field }) => (
@@ -57,8 +81,20 @@ export const StoreModal = () => {
                             )}
                         />
                         <div className="flex space-x-2 pt-6 items-center justify-end w-full">
-                            <Button variant={"outline"} onClick={storeModal.onClose}>Cancel</Button>
-                            <Button type="submit">Create</Button>
+                            <Button
+                                disabled={isSubmitting}
+                                variant={"outline"} 
+                                onClick={storeModal.onClose}
+                                type="button"
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                disabled={isSubmitting}
+                                type="submit"
+                            >
+                                Create
+                            </Button>
                         </div>
                     </form>
                 </Form>
