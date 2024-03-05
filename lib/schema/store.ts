@@ -12,3 +12,5 @@ export const store = pgTable("store", {
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at"),
 })
+
+export type NewStore = typeof store.$inferInsert

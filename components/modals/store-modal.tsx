@@ -23,6 +23,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { Ban, CheckCircle2Icon } from "lucide-react";
 
 
+import type { NewStore } from "@/lib/schema";
+
 export const StoreModal = () => {
     const storeModal = useStoreModal();
     const { toast } = useToast();
@@ -37,16 +39,15 @@ export const StoreModal = () => {
     const { isSubmitting } = form.formState;
 
     const onSubmit = async (formData: CreateStoreFormData) => {
-        console.log("formData", formData);
-        
         try {
-            const { data } = await axios.post("/api/store", formData)
+            const { data } : { data: NewStore } = await axios.post("/api/store", formData)
             toast({
                 title: data?.name || "Success",
                 description: "Successfully created new store!",
                 className: "bg-white h-fit p-4 w-fit",
                 icon: <CheckCircle2Icon className="bg-green-500 w-6 h-6 rounded-full text-white" />,
             })
+            window.location.assign(`/${data.id}`)
         } catch (error) {
             toast({
                 title: "Something Went Wrong!",
@@ -60,7 +61,7 @@ export const StoreModal = () => {
         <Modal
             title="Create store"
             description="Add a new store to manage product and categories."
-            isOpen={true}
+            isOpen={storeModal.isOpen}
             onClose={storeModal.onClose}
         >
             <div className="space-y-4 py-2">
