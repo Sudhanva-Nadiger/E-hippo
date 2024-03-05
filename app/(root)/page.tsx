@@ -1,8 +1,22 @@
+"use client";
 
-export default function Home() {
+import { useStoreModal } from "@/hooks/use-store-modal";
+import { stat } from "fs";
+import { useEffect } from "react";
+
+export default function SetupPage() {
+  const onOpen = useStoreModal((state) => state.onOpen);
+  const isOpen = useStoreModal((state) => state.isOpen);
+
+  useEffect(() => {
+    if(!isOpen) {
+      onOpen();
+    }
+  }, [isOpen, onOpen]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Hello world
-    </main>
+    <div className="p-4">
+      Root page
+    </div>
   )
 }
