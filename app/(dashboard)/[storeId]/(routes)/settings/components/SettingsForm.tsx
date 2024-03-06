@@ -23,6 +23,8 @@ import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import DeleteStoreButton from "./DeleteButton";
+import ApiAlert from "@/components/ui/api-alert";
+import { useOrigin } from "@/hooks/use-origin";
 
 interface SettingsFormProps {
     store: Store;
@@ -39,6 +41,7 @@ export default function SettingsForm({
 
     const { toast } = useToast();
     const router = useRouter();
+    const origin = useOrigin();
 
     const onSubmit = async (data: SettingsFormData) => {
         try {
@@ -107,6 +110,14 @@ export default function SettingsForm({
                     </Button>
                 </form>
             </Form>
+
+            <Separator />
+
+            <ApiAlert
+                title="NEXT_PUBLIC_API_URL"
+                description={`${origin}/api/${store.id}`}
+                variant="admin"
+            />
         </>
     );
 }
