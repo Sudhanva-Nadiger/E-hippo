@@ -45,7 +45,7 @@ export const StoreModal = () => {
                 title: data?.name || "Success",
                 description: "Successfully created new store!",
                 className: "bg-white h-fit p-4 w-fit",
-                icon: <CheckCircle2Icon className="bg-green-500 w-6 h-6 rounded-full text-white" />,
+                toastType: "success"
             })
             
             window.location.assign(`/${data.id}`)
@@ -53,7 +53,7 @@ export const StoreModal = () => {
             toast({
                 title: "Something Went Wrong!",
                 className: "bg-white h-fit p-4 w-fit",
-                icon: <Ban className="bg-red-500 w-6 h-6 rounded-full text-white" />,
+                toastType: "error"
             })
         }
     }

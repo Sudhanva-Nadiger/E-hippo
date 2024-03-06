@@ -38,7 +38,7 @@ export default function StoreSwitcher({
     const params = useParams();
     const router = useRouter();
 
-    const currentStore = items.find(store => store.id === params.storeId);
+    const currentStore = items.find(store => store.id+"" === params.storeId);
 
     const onStoreSelect = (store: Store) => {
         router.push(`/${store.id}`);

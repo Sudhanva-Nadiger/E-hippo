@@ -1,5 +1,6 @@
 import Error from "@/components/Error";
 import { fetchStore } from "@/lib/actions";
+import { auth } from "@clerk/nextjs";
 
 interface DashBoardPageProps {
     params: {
@@ -10,8 +11,9 @@ interface DashBoardPageProps {
 export default async function DashBoardPage({
     params: { storeId },
 }: DashBoardPageProps) {
+    const { userId } = auth();
 
-    const res = await fetchStore(storeId);
+    const res = await fetchStore(storeId, userId!);
 
     if(!res.success) {
         return <Error message="Could notload the data! Try again later." />

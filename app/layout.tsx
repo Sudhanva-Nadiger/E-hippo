@@ -35,13 +35,11 @@ export default function RootLayout({
             )}>
             <main className='relative flex flex-col min-h-screen'>
               {/* <Navbar /> */}
-              <MaxWidthWrapper>
-                <ModalProvider />
-                {children}
-              </MaxWidthWrapper>
+              <ModalProvider />
+              {children}
               {/* <Footer /> */}
             </main>
-            <Toaster  />
+            <Toaster />
           </body>
         </>
       </html>

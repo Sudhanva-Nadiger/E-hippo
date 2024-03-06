@@ -16,7 +16,7 @@ export default async function DashboardLayout({
         redirect("/sign-in");
     }
 
-    const res = await fetchStore(params.storeId);
+    const res = await fetchStore(params.storeId, userId);
 
     if(!res.success) {
         return <h1>Somethin went wrong please try again Later</h1>

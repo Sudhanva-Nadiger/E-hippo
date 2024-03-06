@@ -8,6 +8,13 @@
       "when": 1709644098016,
       "tag": "0000_wild_sharon_ventura",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1709717034503,
+      "tag": "0001_fearless_firelord",
+      "breakpoints": true
     }
   ]
 }

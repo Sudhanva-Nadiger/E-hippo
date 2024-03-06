@@ -23,7 +23,6 @@ export async function POST(request: Request) {
         }
 
         const newStore = await db.insert(store).values({
-            id: randomUUID(),
             name: body.name as string,
             userId: userId,
             updatedAt: new Date(),
