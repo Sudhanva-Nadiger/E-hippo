@@ -29,7 +29,9 @@ export async function POST(request: Request) {
             updatedAt: new Date(),
         }).returning();
 
-        return NextResponse.json(newStore);
+        console.log("newstore insert api route", newStore);
+        
+        return NextResponse.json(newStore[0]);
 
     } catch (error) {
         console.log("STORES_POST", error);

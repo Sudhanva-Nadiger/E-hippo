@@ -47,6 +47,7 @@ export const StoreModal = () => {
                 className: "bg-white h-fit p-4 w-fit",
                 icon: <CheckCircle2Icon className="bg-green-500 w-6 h-6 rounded-full text-white" />,
             })
+            
             window.location.assign(`/${data.id}`)
         } catch (error) {
             toast({

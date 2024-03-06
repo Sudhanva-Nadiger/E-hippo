@@ -31,3 +31,16 @@ export async function fetchUserStores(userId: string) {
         return errorResponse;
     }
 }
+
+export async function fetchAllUserStores(userId: string) {
+    try {
+        const res = (await db.select().from(store).where(eq(store.userId, userId)));
+        return {
+            success: true as const,
+            data: res
+        };
+    } catch (error) {
+        console.log(error);
+        return errorResponse;
+    }
+}
