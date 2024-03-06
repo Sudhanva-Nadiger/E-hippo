@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import { fetchStore } from "@/lib/actions";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
@@ -15,7 +16,13 @@ export default async function DashboardLayout({
         redirect("/sign-in");
     }
 
-    const store = await fetchStore(params.storeId);
+    const res = await fetchStore(params.storeId);
+
+    if(!res.success) {
+        return <h1>Somethin went wrong please try again Later</h1>
+    }
+
+    const store = res.data;
 
     if(!store) {
         redirect("/");
@@ -23,7 +30,7 @@ export default async function DashboardLayout({
 
     return (
         <div>
-            <h1>Navbar</h1>
+            <Navbar />
             {children}
         </div>
     );

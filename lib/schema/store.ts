@@ -14,3 +14,4 @@ export const store = pgTable("store", {
 })
 
 export type NewStore = typeof store.$inferInsert
+export type Store = typeof store.$inferSelect

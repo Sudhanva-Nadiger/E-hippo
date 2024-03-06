@@ -13,7 +13,16 @@ export default async function SetupLayout({
         redirect("/sign-in");
     }
 
-    const store = await fetchUserStores(userId);
+    console.log(userId);
+    
+
+    const res = await fetchUserStores(userId);
+
+    if(!res.success) {
+        return <h1>{"Something went wrong try again later"}</h1>
+    }
+    
+    const store = res.data;
 
     if(store) {
         redirect(`/${store.id}`);

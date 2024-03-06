@@ -1,3 +1,4 @@
+import Error from "@/components/Error";
 import { fetchStore } from "@/lib/actions";
 
 interface DashBoardPageProps {
@@ -10,7 +11,13 @@ export default async function DashBoardPage({
     params: { storeId },
 }: DashBoardPageProps) {
 
-    const store = await fetchStore(storeId);
+    const res = await fetchStore(storeId);
+
+    if(!res.success) {
+        return <Error message="Could notload the data! Try again later." />
+    }
+
+    const store = res.data
 
     return (
         <div>
