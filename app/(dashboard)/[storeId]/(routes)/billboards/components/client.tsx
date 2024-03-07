@@ -3,14 +3,16 @@
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+import { BillBoard } from "@/lib/schema";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
 interface BillboardClientProps {
-
+  data: BillBoard[];
 }
 
 export default function BillboardClient({
+  data
 }: BillboardClientProps){
 
   const router = useRouter();
@@ -19,7 +21,7 @@ export default function BillboardClient({
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title="Billboards (0)"
+          title={`Billboards ${data.length}`}
           description="Manage billboards of your store"
         />
 

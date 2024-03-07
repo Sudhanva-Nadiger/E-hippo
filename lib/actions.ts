@@ -1,6 +1,6 @@
 import { db } from '@/lib/db';
 import { store, billBoards } from '@/lib/schema';
-import { and, eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 
 const errorResponse = {
     success: false,
@@ -11,7 +11,10 @@ export async function fetchStore(storeId: string, userId: string) {
         const id = parseInt(storeId);
 
         if(Number.isNaN(id)) {
-            return errorResponse
+            return {
+                success: true,
+                data: null
+            };
         }
         
         const res = (await db.select().from(store).where(and(eq(store.id, id), eq(store.userId, userId))))[0];
@@ -56,7 +59,10 @@ export async function fetchBillBoard(billBoardId: string) {
         const id = parseInt(billBoardId);
 
         if(Number.isNaN(id)) {
-            return errorResponse;
+            return {
+                success: true,
+                data: null
+            };
         }
 
         const res = (await db.select().from(billBoards).where(eq(billBoards.id, id)))[0];
@@ -66,6 +72,28 @@ export async function fetchBillBoard(billBoardId: string) {
         };
     } catch (error) {
         console.log("error_fetchBillBoards", error);
+        return errorResponse;
+    }
+}
+
+export async function fetchAllBillboards(storeId: string) {
+    try {
+        const id = parseInt(storeId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            };
+        }
+
+        const res = await db.select().from(billBoards).where(eq(billBoards.storeId, id)).orderBy(desc(billBoards.createdAt));
+        return {
+            success: true,
+            data: res
+        };
+    } catch (error) {
+        console.log("error_fetchAllBillBoards", error);
         return errorResponse;
     }
 }

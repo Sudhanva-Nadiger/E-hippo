@@ -7,7 +7,6 @@ export default async function BillboardPage({
 }: {
   params: { billboardId: string }
 }){
-
   const response = await fetchBillBoard(params.billboardId);
 
   if(!response.success) {
