@@ -11,10 +11,7 @@ export async function fetchStore(storeId: string, userId: string) {
         const id = parseInt(storeId);
 
         if(Number.isNaN(id)) {
-            return {
-                success: true,
-                data: null
-            }
+            return errorResponse
         }
         
         const res = (await db.select().from(store).where(and(eq(store.id, id), eq(store.userId, userId))))[0];
@@ -59,10 +56,7 @@ export async function fetchBillBoard(billBoardId: string) {
         const id = parseInt(billBoardId);
 
         if(Number.isNaN(id)) {
-            return {
-                success: true,
-                data: null
-            }
+            return errorResponse;
         }
 
         const res = (await db.select().from(billBoards).where(eq(billBoards.id, id)))[0];
