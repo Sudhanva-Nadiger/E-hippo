@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { store } from '@/lib/schema';
+import { store, billBoards } from '@/lib/schema';
 import { and, eq } from 'drizzle-orm';
 
 const errorResponse = {
@@ -50,6 +50,28 @@ export async function fetchAllUserStores(userId: string) {
         };
     } catch (error) {
         console.log(error);
+        return errorResponse;
+    }
+}
+
+export async function fetchBillBoard(billBoardId: string) {
+    try {
+        const id = parseInt(billBoardId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            }
+        }
+
+        const res = (await db.select().from(billBoards).where(eq(billBoards.id, id)))[0];
+        return {
+            success: true,
+            data: res
+        };
+    } catch (error) {
+        console.log("error_fetchBillBoards", error);
         return errorResponse;
     }
 }

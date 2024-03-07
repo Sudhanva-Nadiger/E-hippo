@@ -28,6 +28,7 @@
     "drizzle-orm": "^0.29.4",
     "lucide-react": "^0.292.0",
     "next": "14.0.1",
+    "next-cloudinary": "^6.2.0",
     "postgres": "^3.4.3",
     "react": "^18",
     "react-dom": "^18",

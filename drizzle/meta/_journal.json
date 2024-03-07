@@ -15,6 +15,13 @@
       "when": 1709717034503,
       "tag": "0001_fearless_firelord",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1709787959746,
+      "tag": "0002_shiny_wendigo",
+      "breakpoints": true
     }
   ]
 }
