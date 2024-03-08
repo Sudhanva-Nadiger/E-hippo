@@ -67,29 +67,12 @@ export async function GET(request: Request,
      { params } : { params: { storeId: string } }
 ) {
     try {
-        const { userId } = auth();
-
-        if(!userId) {
-            return new NextResponse("Unauthorized", {
-                status: 401
-            });
-        }
-
-
         const storeId = params.storeId;
         const id = parseInt(storeId);
 
         if(Number.isNaN(id)) {
             return new NextResponse("Invalid storeId", {
                 status: 400
-            });
-        }
-
-        const response = await fetchStore(storeId, userId);
-
-        if(!response.success) {
-            return new NextResponse("Store not found", {
-                status: 404
             });
         }
 

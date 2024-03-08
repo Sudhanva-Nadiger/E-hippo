@@ -26,14 +26,6 @@ export async function GET(request: Request,
         });
     }
 
-    const { userId } = auth();
-
-    if(!userId) {
-        return new NextResponse("Unauthorized", {
-            status: 401
-        });
-    }
-
     try {
         const storeId = params.storeId;
         const id = parseInt(storeId);
@@ -41,14 +33,6 @@ export async function GET(request: Request,
         if(Number.isNaN(id)) {
             return new NextResponse("Invalid storeId", {
                 status: 400
-            });
-        }
-
-        const response = await fetchStore(storeId, userId);
-
-        if(!response.success || !response.data) {
-            return new NextResponse("Store not found", {
-                status: 404
             });
         }
 
