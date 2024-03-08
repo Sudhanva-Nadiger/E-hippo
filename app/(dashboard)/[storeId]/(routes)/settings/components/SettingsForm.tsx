@@ -116,7 +116,7 @@ export default function SettingsForm({
             <ApiAlert
                 title="NEXT_PUBLIC_API_URL"
                 description={`${origin}/api/${store.id}`}
-                variant="admin"
+                variant="public"
             />
         </>
     );

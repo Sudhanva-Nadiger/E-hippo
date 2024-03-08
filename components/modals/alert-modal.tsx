@@ -9,13 +9,17 @@ interface AlertModalProps {
     onClose: () => void;
     onConfirm: () => void;
     loading: boolean;
+    title?: string;
+    description?: string;
 }
 
 export default function AlertModal({
     isOpen,
     onClose,
     onConfirm,
-    loading
+    loading,
+    title,
+    description,
 }: AlertModalProps) {
     const [mounted, setMounted] = useState(false);
 
@@ -30,8 +34,8 @@ export default function AlertModal({
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
-                title="Delete Store"
-                description="Are you sure you want to delete this store?"
+                title={title || "Delete Store"}
+                description={description || "Are you sure you want to delete this store?"}
             >
                 <div className="pt-x space-x-2 flex items-center justify-end w-full">
                     <Button

@@ -144,6 +144,8 @@ export async function PATCH(request: Request,
             updatedAt: new Date()
         }).where(and(eq(billBoards.id, numBullBoardId), eq(billBoards.storeId, id))).returning()
 
+        return new NextResponse("Billboard updated");
+
     } catch (error) {
         console.log(["billboards_get"], error);
         return new NextResponse("Internal error", { status: 500 }); 
