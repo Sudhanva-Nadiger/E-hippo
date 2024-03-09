@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { store, billBoards } from '@/lib/schema';
+import { store, billBoards, category } from '@/lib/schema';
 import { and, desc, eq } from 'drizzle-orm';
 
 const errorResponse = {
@@ -94,6 +94,57 @@ export async function fetchAllBillboards(storeId: string) {
         };
     } catch (error) {
         console.log("error_fetchAllBillBoards", error);
+        return errorResponse;
+    }
+}
+
+export async function fetchAllCategoriesWithBillBoard(storeId: string) {
+    try {
+        const id = parseInt(storeId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            };
+        }
+
+        const res = await db.query.category.findMany({
+            with: {
+                billBoards: true
+            },
+            where: (category, { eq }) => eq(category.storeId, id)
+        })
+
+        return {
+            success: true,
+            data: res
+        };
+        
+    } catch (error) {
+        console.log("error_fetchAllBillBoards", error);
+        return errorResponse;
+    }
+}
+
+export async function fetchCategory(categoryId: string) {
+    try {
+        const id = parseInt(categoryId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            };
+        }
+
+        const res = (await db.select().from(category).where(eq(category.id, id)))[0];
+        return {
+            success: true,
+            data: res
+        };
+    } catch (error) {
+        console.log("error_fetchCategory", error);
         return errorResponse;
     }
 }

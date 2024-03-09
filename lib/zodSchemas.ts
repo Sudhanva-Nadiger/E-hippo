@@ -26,3 +26,14 @@ export const billBoardFormSchema = z.object({
   });
   
 export type BillBoardFormData = z.infer<typeof billBoardFormSchema>
+
+export const categoryFormSchema = z.object({
+    name: z.string().min(1, {
+        message: "Name is required",
+    }),
+    billboardId: z.string().min(1, {
+        message: "BillboardId is required",
+    }),
+});
+
+export type CategoryFormData = z.infer<typeof categoryFormSchema>
