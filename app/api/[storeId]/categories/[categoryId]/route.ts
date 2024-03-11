@@ -1,7 +1,7 @@
 import { fetchStore } from "@/lib/actions";
 import { db } from "@/lib/db";
-import { billBoards, store } from "@/lib/schema";
-import { BillBoardFormData, billBoardFormSchema } from "@/lib/zodSchemas";
+import { category } from "@/lib/schema";
+import { CategoryFormData, categoryFormSchema } from "@/lib/zodSchemas";
 import { auth } from "@clerk/nextjs";
 import { and, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
@@ -10,7 +10,7 @@ export async function GET(request: Request,
     { params } : {
         params: {
             storeId: string;
-            billboardId: string;
+            categoryId: string;
         }
     }
 ) {
@@ -20,7 +20,7 @@ export async function GET(request: Request,
         });
     }
 
-    if(!params.billboardId) {
+    if(!params.categoryId) {
         return new NextResponse("Billboard id is required", {
             status: 400
         });
@@ -36,20 +36,20 @@ export async function GET(request: Request,
             });
         }
 
-        const numBullBoardId = parseInt(params.billboardId);
-        if(Number.isNaN(numBullBoardId)) {
+        const numCategoryId = parseInt(params.categoryId);
+        if(Number.isNaN(numCategoryId)) {
             return new NextResponse("Invalid billboard id", {
                 status: 400
             });
         }
 
-        const [billBoard] = await db.select()
-                                  .from(billBoards)
+        const result = await db.select()
+                                  .from(category)
                                   .where(and(
-                                        eq(billBoards.id, numBullBoardId), 
-                                        eq(billBoards.storeId, id)
+                                        eq(category.id, numCategoryId), 
+                                        eq(category.storeId, id)
                                     ));
-        return NextResponse.json(billBoard);
+        return NextResponse.json(result[0]);
 
     } catch (error) {
         console.log(["billboards_patch"], error);
@@ -62,7 +62,7 @@ export async function PATCH(request: Request,
     { params } : {
         params: {
             storeId: string;
-            billboardId: string;
+            categoryId: string;
         }
     }
 ) {
@@ -72,7 +72,7 @@ export async function PATCH(request: Request,
         });
     }
 
-    if(!params.billboardId) {
+    if(!params.categoryId) {
         return new NextResponse("Billboard id is required", {
             status: 400
         });
@@ -86,8 +86,8 @@ export async function PATCH(request: Request,
         });
     }
 
-    const body = await request.json() as BillBoardFormData;
-    const { success } = billBoardFormSchema.safeParse(body);
+    const body = await request.json() as CategoryFormData
+    const { success } = categoryFormSchema.safeParse(body);
     
     if(!success) {
         return new NextResponse("Invalid data", {
@@ -95,7 +95,7 @@ export async function PATCH(request: Request,
         });
     }
 
-    const { label, imageUrl } = body;
+    const { name, billboardId } = body;
 
     try {
         const storeId = params.storeId;
@@ -115,23 +115,32 @@ export async function PATCH(request: Request,
             });
         }
 
-        const numBullBoardId = parseInt(params.billboardId);
-        if(Number.isNaN(numBullBoardId)) {
+        const numCategoryId = parseInt(params.categoryId);
+
+        if(Number.isNaN(numCategoryId)) {
             return new NextResponse("Invalid billboard id", {
                 status: 400
             });
         }
 
-        await db.update(billBoards).set({
-            label,
-            imageUrl,
+        const numBillBoardId = parseInt(billboardId);
+
+        if(Number.isNaN(numBillBoardId)) {
+            return new NextResponse("Invalid billboardId", {
+                status: 400
+            });
+        }
+
+        await db.update(category).set({
+            name,
+            billBoardId: numBillBoardId,
             updatedAt: new Date()
-        }).where(and(eq(billBoards.id, numBullBoardId), eq(billBoards.storeId, id))).returning()
+        }).where(and(eq(category.id, numCategoryId), eq(category.storeId, id)))
 
         return new NextResponse("Billboard updated");
 
     } catch (error) {
-        console.log(["billboards_get"], error);
+        console.log(["category_update"], error);
         return new NextResponse("Internal error", { status: 500 }); 
     }
 }
@@ -141,7 +150,7 @@ export async function DELETE(_: Request,
     { params } : {
         params: {
             storeId: string;
-            billboardId: string;
+            categoryId: string;
         }
     }
 ) {
@@ -151,7 +160,7 @@ export async function DELETE(_: Request,
         });
     }
 
-    if(!params.billboardId) {
+    if(!params.categoryId) {
         return new NextResponse("Billboard id is required", {
             status: 400
         });
@@ -183,22 +192,22 @@ export async function DELETE(_: Request,
             });
         }
 
-        const numBillBoardId = parseInt(params.billboardId);
-        if(Number.isNaN(numBillBoardId)) {
-            return new NextResponse("Invalid billboard id", {
+        const numCategoryId = parseInt(params.categoryId);
+        if(Number.isNaN(numCategoryId)) {
+            return new NextResponse("Invalid category id", {
                 status: 400
             });
         }
         
-        await db.delete(billBoards)
+        await db.delete(category)
                 .where(and(
-                    eq(billBoards.storeId, id), 
-                    eq(billBoards.id, numBillBoardId)
+                    eq(category.storeId, id), 
+                    eq(category.id, numCategoryId)
                 ));
-        return NextResponse.json(numBillBoardId);
+        return NextResponse.json(numCategoryId);
 
     } catch (error) {
-        console.log(["billboards_delete"], error);
+        console.log(["category_delete"], error);
         return new NextResponse("Internal error", { status: 500 }); 
     }  
 

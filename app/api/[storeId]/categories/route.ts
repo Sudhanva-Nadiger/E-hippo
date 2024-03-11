@@ -1,7 +1,7 @@
 import { fetchStore } from "@/lib/actions";
 import { db } from "@/lib/db";
-import { billBoards, store } from "@/lib/schema";
-import { BillBoardFormData, billBoardFormSchema } from "@/lib/zodSchemas";
+import { category } from "@/lib/schema";
+import { CategoryFormData, categoryFormSchema } from "@/lib/zodSchemas";
 import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
@@ -18,8 +18,8 @@ export async function POST(request: Request,
             });
         }
 
-        const body = await request.json() as BillBoardFormData;
-        const { success } = billBoardFormSchema.safeParse(body);
+        const body = await request.json() as CategoryFormData;
+        const { success } = categoryFormSchema.safeParse(body);
         if(!success) {
             return new NextResponse("Invalid input", {
                 status: 400
@@ -27,9 +27,9 @@ export async function POST(request: Request,
         }
 
         const storeId = params.storeId;
-        const id = parseInt(storeId);
+        const numStoreId = parseInt(storeId);
 
-        if(Number.isNaN(id)) {
+        if(Number.isNaN(numStoreId)) {
             return new NextResponse("Invalid storeId", {
                 status: 400
             });
@@ -43,19 +43,27 @@ export async function POST(request: Request,
             });
         }
 
-        const newBillBoard = await db.insert(billBoards).values({
-            label: body.label,
-            imageUrl: body.imageUrl,
-            storeId: id,
+        const numBillBoardId = parseInt(body.billboardId);
+
+        if(Number.isNaN(numBillBoardId)) {
+            return new NextResponse("Invalid billboardId", {
+                status: 400
+            });
+        }
+
+        const newCategory = await db.insert(category).values({
+            name: body.name,
+            billBoardId: numBillBoardId,
             updatedAt: new Date(),
+            storeId: numStoreId
         }).returning();
 
-        console.log("new billboard insert api route", newBillBoard);
+        console.log("new billboard insert api route", newCategory);
         
-        return NextResponse.json(newBillBoard[0]);
+        return NextResponse.json(newCategory[0]);
 
     } catch (error) {
-        console.log("BILLBOARDS_POST", error);
+        console.log("categories_POST", error);
         return new NextResponse("Internal error", {
             status: 500
         })
@@ -68,22 +76,25 @@ export async function GET(request: Request,
 ) {
     try {
         const storeId = params.storeId;
-        const id = parseInt(storeId);
+        const numStoreId = parseInt(storeId);
 
-        if(Number.isNaN(id)) {
+        if(Number.isNaN(numStoreId)) {
             return new NextResponse("Invalid storeId", {
                 status: 400
             });
         }
 
-        const allBillBoards = await db.select().from(billBoards).where(eq(billBoards.storeId, id));
+        const allCategories = await db.select().from(category).where(eq(category.storeId, numStoreId));
 
-        console.log("new billboard get api route");
+        console.log("new cat get api route");
+
+        console.log(allCategories);
         
-        return NextResponse.json(allBillBoards);
+        
+        return NextResponse.json(allCategories);
 
     } catch (error) {
-        console.log("BILLBOARDS_GET", error);
+        console.log("Categories_GET", error);
         return new NextResponse("Internal error", {
             status: 500
         })

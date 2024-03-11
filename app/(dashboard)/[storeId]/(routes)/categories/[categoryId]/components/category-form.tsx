@@ -70,6 +70,8 @@ export function CategoryForm({
         toastType: "success",
       });
     } catch (error: any) {
+      console.log(error);
+      
       toast({
         title: "Something went wrong.",
         toastType: "error",
@@ -103,13 +105,13 @@ export function CategoryForm({
 
   return (
     <>
-    <AlertModal 
-      isOpen={open} 
-      onClose={() => setOpen(false)}
-      onConfirm={onDelete}
-      loading={loading}
-    />
-     <div className="flex items-center justify-between">
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+        loading={loading}
+      />
+      <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
           <Button
@@ -145,35 +147,35 @@ export function CategoryForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Billboard</FormLabel>
-                    <Select 
-                      disabled={loading} 
-                      onValueChange={field.onChange} 
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value}
-                            placeholder={"Select a billboard"}
-                           />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {
-                          billboards?.map((billboard) => {
-                            return (
-                              <SelectItem 
-                                key={billboard.id}
-                                value={billboard.id.toString()}
-                              >
-                                  {billboard.label}
-                              </SelectItem>
-                            )
-                          })
-                        }
-                      </SelectContent>
-                    </Select>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder={"Select a billboard"}
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {
+                        billboards?.map((billboard) => {
+                          return (
+                            <SelectItem
+                              key={billboard.id}
+                              value={billboard.id.toString()}
+                            >
+                              {billboard.label}
+                            </SelectItem>
+                          )
+                        })
+                      }
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

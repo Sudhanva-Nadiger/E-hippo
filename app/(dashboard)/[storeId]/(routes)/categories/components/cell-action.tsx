@@ -41,10 +41,10 @@ export default function CellAction({
     const onDelete = async () => {
         try {
           setLoading(true);
-          await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
+          await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
           router.refresh();
           toast({
-            title: "Billboard deleted.",
+            title: "Category deleted.",
             toastType: "success",
           });
         } catch (error: any) {
@@ -66,8 +66,8 @@ export default function CellAction({
                 onConfirm={onDelete}
                 onClose={() => setOpen(false)}
                 loading={loading}
-                title="Delete Billboard"
-                description="Are you sure you want to delete this billboard?"
+                title="Delete category"
+                description="Are you sure you want to delete this category?"
             />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -82,7 +82,7 @@ export default function CellAction({
                         <Copy className="mr-2 h-4 w-4" />
                         Copy id
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/billboards/${data.id}`)}>
+                    <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/categories/${data.id}`)}>
                         <Edit className="mr-2 h-4 w-4" />
                         Edit
                     </DropdownMenuItem>
