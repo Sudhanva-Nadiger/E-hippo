@@ -15,3 +15,6 @@ export const size = pgTable("sizes", {
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
 })
+
+export type Size = typeof size.$inferSelect;
+export type NewSize = typeof size.$inferInsert;

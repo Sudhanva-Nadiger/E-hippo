@@ -37,3 +37,14 @@ export const categoryFormSchema = z.object({
 });
 
 export type CategoryFormData = z.infer<typeof categoryFormSchema>
+
+export const sizeFormSchema = z.object({
+    name: z.string().min(1, {
+        message: "Name is required"
+    }),
+    value: z.string().min(1, {
+        message: "Value is required"
+    })
+});
+
+export type SizeFormData = z.infer<typeof sizeFormSchema>
