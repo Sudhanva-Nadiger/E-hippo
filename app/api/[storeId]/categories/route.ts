@@ -58,7 +58,7 @@ export async function POST(request: Request,
             storeId: numStoreId
         }).returning();
 
-        console.log("new billboard insert api route", newCategory);
+        console.log("new category insert api route", newCategory);
         
         return NextResponse.json(newCategory[0]);
 

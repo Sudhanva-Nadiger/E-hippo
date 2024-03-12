@@ -7,7 +7,7 @@ import {
     DropdownMenuTrigger,
     DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
-import { SizeColumn } from "./columns";
+import { ColorColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -17,7 +17,7 @@ import axios from "axios";
 import AlertModal from "@/components/modals/alert-modal";
 
 interface CellActionProps {
-    data: SizeColumn
+    data: ColorColumn
 }
 
 export default function CellAction({
@@ -33,7 +33,7 @@ export default function CellAction({
     const onCopy = (value: string) => {
         navigator.clipboard.writeText(value);
         toast({
-            title: "Copied size id to clipboard",
+            title: "Copied color id to clipboard",
             toastType: "success"
         })
     }
@@ -41,16 +41,16 @@ export default function CellAction({
     const onDelete = async () => {
         try {
           setLoading(true);
-          await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
+          await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
           router.refresh();
           toast({
-            title: "Size deleted.",
+            title: "Color deleted.",
             toastType: "success",
           });
         } catch (error: any) {
           toast({
             title: "Something went wrong.",
-            description: "Make sure you removed all sizes using this product first",
+            description: "Make sure you removed all products using this color first",
             toastType: "error",
           });
         } finally {
@@ -66,8 +66,8 @@ export default function CellAction({
                 onConfirm={onDelete}
                 onClose={() => setOpen(false)}
                 loading={loading}
-                title="Delete Size"
-                description="Are you sure you want to delete this size?"
+                title="Delete Color"
+                description="Are you sure you want to delete this color?"
             />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -82,7 +82,7 @@ export default function CellAction({
                         <Copy className="mr-2 h-4 w-4" />
                         Copy id
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/sizes/${data.id}`)}>
+                    <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/colors/${data.id}`)}>
                         <Edit className="mr-2 h-4 w-4" />
                         Edit
                     </DropdownMenuItem>

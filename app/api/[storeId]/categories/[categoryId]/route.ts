@@ -161,7 +161,7 @@ export async function DELETE(_: Request,
     }
 
     if(!params.categoryId) {
-        return new NextResponse("Billboard id is required", {
+        return new NextResponse("Category id is required", {
             status: 400
         });
     }

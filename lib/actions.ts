@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { store, billBoards, category, size } from '@/lib/schema';
+import { store, billBoards, category, size, color } from '@/lib/schema';
 import { and, desc, eq } from 'drizzle-orm';
 
 const errorResponse = {
@@ -189,6 +189,50 @@ export async function fetchSize(sizeId: string) {
         };
     } catch (error) {
         console.log("error_fetchSize", error);
+        return errorResponse;
+    }
+}
+
+export async function fetchAllColors(storeId: string) {
+    try {
+        const id = parseInt(storeId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            };
+        }
+
+        const res = await db.select().from(color).where(eq(color.storeId, id)).orderBy(desc(color.createdAt));
+        return {
+            success: true,
+            data: res
+        };
+    } catch (error) {
+        console.log("error_fetch_all_colors", error);
+        return errorResponse;
+    }
+}
+
+export async function fetchColor(colorId: string) {
+    try {
+        const id = parseInt(colorId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            };
+        }
+
+        const res = (await db.select().from(color).where(eq(color.id, id)))[0];
+        return {
+            success: true,
+            data: res
+        };
+    } catch (error) {
+        console.log("error_fetch_color", error);
         return errorResponse;
     }
 }

@@ -48,3 +48,15 @@ export const sizeFormSchema = z.object({
 });
 
 export type SizeFormData = z.infer<typeof sizeFormSchema>
+
+
+export const colorFormSchema = z.object({
+    name: z.string().min(1, {
+        message: "Name is required"
+    }),
+    value: z.string().min(4).regex(/^#/, {
+        message: "Value must be a valid hex code. Example: #000000"
+    })
+});
+
+export type ColorFormData = z.infer<typeof colorFormSchema>
