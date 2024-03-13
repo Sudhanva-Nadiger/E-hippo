@@ -33,7 +33,7 @@ export default function CellAction({
     const onCopy = (value: string) => {
         navigator.clipboard.writeText(value);
         toast({
-            title: "Copied billboard id to clipboard",
+            title: "Copied product id to clipboard",
             toastType: "success"
         })
     }
@@ -44,7 +44,7 @@ export default function CellAction({
           await axios.delete(`/api/${params.storeId}/products/${data.id}`);
           router.refresh();
           toast({
-            title: "Billboard deleted.",
+            title: "Product deleted.",
             toastType: "success",
           });
         } catch (error: any) {
@@ -66,8 +66,8 @@ export default function CellAction({
                 onConfirm={onDelete}
                 onClose={() => setOpen(false)}
                 loading={loading}
-                title="Delete Billboard"
-                description="Are you sure you want to delete this billboard?"
+                title="Delete Product"
+                description="Are you sure you want to delete this product?"
             />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>

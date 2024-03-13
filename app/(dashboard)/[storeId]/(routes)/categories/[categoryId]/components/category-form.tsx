@@ -57,6 +57,7 @@ export function CategoryForm({
   });
 
   const onSubmit = async (data: CategoryFormData) => {
+    setLoading(true);
     try {
       if (initialData) {
         await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, data);

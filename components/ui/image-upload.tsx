@@ -32,6 +32,9 @@ export default function ImageUpload({
 
     if (!mounted) return null;
 
+    console.log(values);
+    
+
     return (
         <div>
             <div className="mb-4 flex items-center gap-4">
@@ -58,7 +61,7 @@ export default function ImageUpload({
             </div>
 
             <CldUploadWidget
-                onSuccess={onUpload}
+                onUpload={onUpload}
                 uploadPreset="ndvcngmb"
             >
                 {({ open }) => {

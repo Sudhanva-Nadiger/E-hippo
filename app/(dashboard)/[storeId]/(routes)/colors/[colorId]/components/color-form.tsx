@@ -53,6 +53,7 @@ export function ColorForm({
   });
 
   const onSubmit = async (data: ColorFormData) => {
+    setLoading(true);
     try {
       if (initialData) {
         await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data);

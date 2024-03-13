@@ -54,6 +54,7 @@ export function SizeForm({
   });
 
   const onSubmit = async (data: SizeFormData) => {
+    setLoading(true);
     try {
       if (initialData) {
         await axios.patch(`/api/${params.storeId}/sizes/${params.sizeId}`, data);

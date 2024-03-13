@@ -80,7 +80,7 @@ export async function POST(request: Request,
             images: insertedImages
         }
 
-        console.log("new billboard insert api route", productWithImages);
+        console.log("new product insert api route", productWithImages);
         
         return NextResponse.json(productWithImages);
 

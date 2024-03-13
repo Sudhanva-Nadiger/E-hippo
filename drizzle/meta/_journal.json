@@ -43,6 +43,13 @@
       "when": 1710252162030,
       "tag": "0005_colorful_triton",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1710339442938,
+      "tag": "0006_smooth_whiplash",
+      "breakpoints": true
     }
   ]
 }

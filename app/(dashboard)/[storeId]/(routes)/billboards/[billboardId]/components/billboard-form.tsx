@@ -54,6 +54,7 @@ export function BillboardForm({
   });
 
   const onSubmit = async (data: BillBoardFormData) => {
+    setLoading(true);
     try {
       if (initialData) {
         await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);

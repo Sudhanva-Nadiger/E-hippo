@@ -10,20 +10,20 @@ import { useForm } from "react-hook-form"
 import AlertModal from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form"
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select"
 import Heading from "@/components/ui/heading"
 import { Input } from "@/components/ui/input"
@@ -64,7 +64,7 @@ export function ProductForm({
     resolver: zodResolver(productFormSchema),
     defaultValues: {
       name: initialData?.name || "",
-      description: initialData?.description ||"",
+      description: initialData?.description || "",
       price: parseFloat(initialData?.price || "0"),
       categoryId: initialData?.categoryId || 0,
       sizeId: initialData?.sizeId || 0,
@@ -76,6 +76,7 @@ export function ProductForm({
   });
 
   const onSubmit = async (data: ProductFormData) => {
+    setLoading(true)
     try {
       if (initialData) {
         await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data);
@@ -121,13 +122,13 @@ export function ProductForm({
 
   return (
     <>
-    <AlertModal 
-      isOpen={open} 
-      onClose={() => setOpen(false)}
-      onConfirm={onDelete}
-      loading={loading}
-    />
-     <div className="flex items-center justify-between">
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+        loading={loading}
+      />
+      <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
           <Button
@@ -144,23 +145,23 @@ export function ProductForm({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
           <FormField
-              control={form.control}
-              name="images"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Images</FormLabel>
-                  <FormControl>
-                    <ImageUpload 
-                      values={field.value.map((image) => image.url)} 
-                      disabled={loading} 
-                      onChange={(url) => field.onChange([...field.value, { url }])}
-                      onRemove={(url) => field.onChange(field.value.filter((image) => image.url !== url))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            control={form.control}
+            name="images"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Images</FormLabel>
+                <FormControl>
+                <ImageUpload 
+                    values={field.value.map((image) => image.url)} 
+                    disabled={loading} 
+                    onChange={(url) => field.onChange([...field.value, { url }])}
+                    onRemove={(url) => field.onChange([...field.value.filter((current) => current.url !== url)])}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="md:grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
@@ -194,10 +195,10 @@ export function ProductForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category</FormLabel>
-                  <Select 
-                    disabled={loading} 
-                    onValueChange={field.onChange} 
-                    value={field.value.toString()} 
+                  <Select
+                    disabled={loading}
+                    onValueChange={(value) => field.onChange(+value)}
+                    value={field.value.toString()}
                     defaultValue={field.value.toString()}
                   >
                     <FormControl>
@@ -221,10 +222,10 @@ export function ProductForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Size</FormLabel>
-                  <Select 
-                    disabled={loading} 
-                    onValueChange={field.onChange} 
-                    value={field.value.toString()} 
+                  <Select
+                    disabled={loading}
+                    onValueChange={(value) => field.onChange(+value)}
+                    value={field.value.toString()}
                     defaultValue={field.value.toString()}
                   >
                     <FormControl>
@@ -248,10 +249,10 @@ export function ProductForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Color</FormLabel>
-                  <Select 
-                    disabled={loading} 
-                    onValueChange={field.onChange} 
-                    value={field.value.toString()} 
+                  <Select
+                    disabled={loading}
+                    onValueChange={(value) => field.onChange(+value)}
+                    value={field.value.toString()}
                     defaultValue={field.value.toString()}
                   >
                     <FormControl>
@@ -275,9 +276,9 @@ export function ProductForm({
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
-                    <Checkbox 
-                      disabled={loading} 
-                      checked={field.value} 
+                    <Checkbox
+                      disabled={loading}
+                      checked={field.value}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
@@ -299,9 +300,9 @@ export function ProductForm({
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
-                    <Checkbox 
-                      disabled={loading} 
-                      checked={field.value} 
+                    <Checkbox
+                      disabled={loading}
+                      checked={field.value}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
@@ -311,7 +312,7 @@ export function ProductForm({
                       Archive
                     </FormLabel>
                     <FormDescription>
-                    This product will not appear anywhere in the store.
+                      This product will not appear anywhere in the store.
                     </FormDescription>
                   </div>
                 </FormItem>

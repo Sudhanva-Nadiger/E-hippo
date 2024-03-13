@@ -44,9 +44,7 @@ export const productRelations = relations(product, ({ one, many }) => ({
         references: [color.id],
         relationName: "color"
     }),
-    images: many(image, {
-        relationName: "images"
-    }),
+    images: many(image),
 }))
 
 export type Product = typeof product.$inferSelect;
