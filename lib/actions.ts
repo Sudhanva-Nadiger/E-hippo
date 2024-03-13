@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { store, billBoards, category, size, color, product } from '@/lib/schema';
+import { store, billBoards, category, size, color } from '@/lib/schema';
 import { and, desc, eq } from 'drizzle-orm';
 
 const errorResponse = {
@@ -312,6 +312,37 @@ export async function fetchProduct(productId: string) {
         };
     } catch (error) {
         console.log("error_fetchProduct", error);
+        return errorResponse;
+    }
+}
+
+export async function fetchAllOrders(storeId: string) {
+    try {
+        const id = parseInt(storeId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            };
+        }
+
+        const res = await db.query.order.findMany({
+            with: {
+                orderItems: {
+                    with: {
+                        product: true
+                    }
+                }
+            },
+            where: (order, { eq }) => eq(order.storeId, id),
+        });
+        return {
+            success: true,
+            data: res
+        };
+    } catch (error) {
+        console.log("error_fetchAllOrders", error);
         return errorResponse;
     }
 }

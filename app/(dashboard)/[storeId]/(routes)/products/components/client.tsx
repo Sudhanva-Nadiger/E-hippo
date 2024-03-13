@@ -41,7 +41,7 @@ export default function ProductClient({
       <DataTable
         columns={columns}
         data={data}
-        searchKey="label"
+        searchKey="name"
       />
 
       <Heading title="API" description="API calls for Products" />

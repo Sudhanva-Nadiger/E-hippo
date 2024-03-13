@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { category, color, size, store, image } from ".";
 import { relations } from "drizzle-orm";
+import { orderItem } from "./order";
 
 export const product = pgTable("products", {
     id: serial("id").primaryKey(),
@@ -45,6 +46,7 @@ export const productRelations = relations(product, ({ one, many }) => ({
         relationName: "color"
     }),
     images: many(image),
+    orderItem: many(orderItem)
 }))
 
 export type Product = typeof product.$inferSelect;
