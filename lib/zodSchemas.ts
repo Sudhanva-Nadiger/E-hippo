@@ -60,3 +60,32 @@ export const colorFormSchema = z.object({
 });
 
 export type ColorFormData = z.infer<typeof colorFormSchema>
+
+export const productFormSchema = z.object({
+    name: z.string().min(1, {
+        message: "Name is required"
+    }),
+    images: z.object({
+        url: z.string().min(1, {
+            message: "Image URL is required"
+        })
+    }).array(),
+    price: z.coerce.number().min(1, {
+        message: "Price is required"
+    }),
+    isFeatured: z.boolean().default(false).optional(),
+    isArchived: z.boolean().default(false).optional(),
+    description: z.string().optional(),
+    categoryId: z.number().min(1, {
+        message: "Category is required"
+    }),
+    sizeId: z.number().min(1, {
+        message: "Size is required"
+    }),
+    colorId: z.number().min(1, {
+        message: "Color is required"
+    }),
+
+});
+
+export type ProductFormData = z.infer<typeof productFormSchema>

@@ -5,7 +5,7 @@ import {
     serial,
     integer,
   } from "drizzle-orm/pg-core";
-import { store, billBoards } from ".";
+import { store, billBoards, product } from ".";
 import { relations } from "drizzle-orm";
 
 export const category = pgTable("categories", {

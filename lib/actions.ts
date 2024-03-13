@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { store, billBoards, category, size, color } from '@/lib/schema';
+import { store, billBoards, category, size, color, product } from '@/lib/schema';
 import { and, desc, eq } from 'drizzle-orm';
 
 const errorResponse = {
@@ -127,6 +127,28 @@ export async function fetchAllCategoriesWithBillBoard(storeId: string) {
     }
 }
 
+export async function fetchAllCategories(storeId: string) {
+    try {
+        const id = parseInt(storeId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            };
+        }
+
+        const res = await db.select().from(category).where(eq(category.storeId, id)).orderBy(desc(category.createdAt));
+        return {
+            success: true,
+            data: res
+        };
+    } catch (error) {
+        console.log("error_fetchAllCategories", error);
+        return errorResponse;
+    }
+}
+
 export async function fetchCategory(categoryId: string) {
     try {
         const id = parseInt(categoryId);
@@ -233,6 +255,63 @@ export async function fetchColor(colorId: string) {
         };
     } catch (error) {
         console.log("error_fetch_color", error);
+        return errorResponse;
+    }
+}
+
+export async function fetchAllProducts(storeId: string) {
+    try {
+        const id = parseInt(storeId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            };
+        }
+
+        const res = await db.query.product.findMany({
+            with: {
+                size: true,
+                category: true,
+                color: true
+            },
+            where: (product, { eq }) => eq(product.storeId, id),
+        })
+        
+        return {
+            success: true,
+            data: res
+        };
+    } catch (error) {
+        console.log("error_fetchAllProducts", error);
+        return errorResponse;
+    }
+}
+
+export async function fetchProduct(productId: string) {
+    try {
+        const id = parseInt(productId);
+
+        if(Number.isNaN(id)) {
+            return {
+                success: true,
+                data: null
+            };
+        }
+
+        const res = await db.query.product.findFirst({
+            where: (product, { eq }) => eq(product.id, id),
+            with: {
+                images: true,
+            }
+        });
+        return {
+            success: true,
+            data: res
+        };
+    } catch (error) {
+        console.log("error_fetchProduct", error);
         return errorResponse;
     }
 }
