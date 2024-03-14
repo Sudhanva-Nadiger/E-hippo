@@ -1,9 +1,11 @@
 import { Billboard } from '@/components/Billboard'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
+import { ProductList } from '@/components/ProductList'
 import {
   Button,
   buttonVariants,
 } from '@/components/ui/button'
+import { getProducts } from '@/lib/actions/get-products'
 import {
   ArrowDownToLine,
   CheckCircle,
@@ -32,9 +34,10 @@ const perks = [
   },
 ]
 
-export default function Home() {
+export default async function Home() {
+
   return (
-    <>
+    <div className='space-y-5'>
       <MaxWidthWrapper>
         <div className='py-20 mx-auto text-center flex flex-col items-center max-w-3xl'>
           <h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
@@ -50,9 +53,9 @@ export default function Home() {
           </p>
           <div className='flex flex-col sm:flex-row gap-4 mt-6'>
             <Link
-              href='/products'
+              href='#featuredProducts'
               className={buttonVariants()}>
-              Browse Trending
+              Featured products &rarr;
             </Link>
             <Button variant='ghost'>
               Our quality promise &rarr;
@@ -62,6 +65,10 @@ export default function Home() {
       </MaxWidthWrapper>
 
       <Billboard id='2' />
+
+      <MaxWidthWrapper id='featuredProducts' className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
+          <ProductList title="Featured Products" query={{isFeatured: true}} />
+      </MaxWidthWrapper>
 
       <section className='border-t border-gray-200 bg-gray-50'>
         <MaxWidthWrapper className='py-20'>
@@ -89,6 +96,6 @@ export default function Home() {
           </div>
         </MaxWidthWrapper>
       </section>
-    </>
+    </div>
   )
 }
