@@ -1,71 +1,37 @@
 'use client'
 
-import { useOnClickOutside } from '@/hooks/use-on-click-outside'
-import { useEffect, useRef, useState } from 'react'
-import NavItem from './NavItem'
+import { cn } from '@/lib/utils'
+import { Category } from '@/types'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-const NavItems = () => {
-  const [activeIndex, setActiveIndex] = useState<
-    null | number
-  >(null)
+const NavItems = ({
+  data
+}: {
+  data: Category[]
+}) => {
+  const pathName = usePathname();
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setActiveIndex(null)
-      }
+  const routes = data.map((route: any) => {
+    return {
+      href: `/category/${route.id}`,
+      label: route.name,
+      active: pathName === `/category/${route.id}`
     }
-
-    document.addEventListener('keydown', handler)
-
-    return () => {
-      document.removeEventListener('keydown', handler)
-    }
-  }, [])
-
-  const isAnyOpen = activeIndex !== null
-
-  const navRef = useRef<HTMLDivElement | null>(null)
-
-  useOnClickOutside(navRef, () => setActiveIndex(null))
-
-  const category = {
-    label: 'Shop',
-    featured: [
-        {
-            name: 'New Arrivals',
-            imageSrc: '/images/new-arrivals.jpg',
-            href: '/new-arrivals',
-        }
-    ]
-}
+  })
 
   return (
-    <div className='flex gap-4 h-full' ref={navRef}>
-      {[category].map((category, i) => {
-        const handleOpen = () => {
-          if (activeIndex === i) {
-            setActiveIndex(null)
-          } else {
-            setActiveIndex(i)
-          }
-        }
-
-        const close = () => setActiveIndex(null)
-
-        const isOpen = i === activeIndex
-
-        return (
-          <NavItem
-            close={close}
-            handleOpen={handleOpen}
-            isOpen={isOpen}
-            key={i}
-            isAnyOpen={isAnyOpen}
-          />
-        )
-      })}
-    </div>
+    <nav className='flex gap-4 h-full items-center'>
+      {routes.map((route, index: number) => (
+        <Link 
+          key={index} 
+          href={route.href}
+          className={cn("text-sm font-medium transition-colors hover:text-blue-600")}
+        >
+          {route.label}
+        </Link>
+      ))}
+    </nav>
   )
 }
 

@@ -1,3 +1,4 @@
+import { Billboard } from '@/components/Billboard'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import {
   Button,
@@ -59,6 +60,8 @@ export default function Home() {
           </div>
         </div>
       </MaxWidthWrapper>
+
+      <Billboard id='2' />
 
       <section className='border-t border-gray-200 bg-gray-50'>
         <MaxWidthWrapper className='py-20'>
