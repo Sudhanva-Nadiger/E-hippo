@@ -11,6 +11,8 @@ import {
 import { Expand, ShoppingCart } from "lucide-react";
 import Currency from "./ui/Currency";
 import Link from "next/link";
+import { useModalPreview } from "@/hooks/use-modal-preview";
+import { MouseEventHandler } from "react";
 
 
 export default function ProductCard({
@@ -18,6 +20,13 @@ export default function ProductCard({
 }: {
     product: Product
 }) {
+    const modalPreview = useModalPreview();
+
+    const onPreview: MouseEventHandler<HTMLButtonElement> = (e) => {
+        e.stopPropagation();
+        modalPreview.open(product);
+    }
+
     return (
         <Link href={`/product/${product.id}`}>
             <div className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4">
@@ -31,14 +40,14 @@ export default function ProductCard({
                     />
                     <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
                         <div className="flex gap-x-6 justify-center">
-                            <IconButton className="bg-white">
+                            <IconButton onClick={onPreview} className="bg-white">
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <Expand size={"20"} className="text-gray-600" />
                                         </TooltipTrigger>
                                         <TooltipContent className="mb-2">
-                                            <p>Add to library</p>
+                                            <p>View product</p>
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
