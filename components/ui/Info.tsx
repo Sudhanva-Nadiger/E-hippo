@@ -6,16 +6,17 @@ import Currency  from "@/components/ui/Currency";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/types";
 import { Separator } from "@/components/ui/separator";
+import { useCart } from "@/hooks/use-cart";
 
 interface InfoProps {
   data: Product
 };
 
 const Info: React.FC<InfoProps> = ({ data }) => {
-//   const cart = useCart();
+  const cart = useCart();
 
   const onAddToCart = () => {
-    // cart.addItem(data);
+    cart.addItem(data);
   }
 
   return ( 

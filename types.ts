@@ -30,7 +30,7 @@ export interface Size {
 export interface Product {
     id: number
     name: string
-    price: number
+    price: string
     images: Image[]
     category: Category
     isFeatured: boolean

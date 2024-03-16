@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import Navbar from '@/components/NavBar'
 import './globals.css'
 import ModalProvider from '@/providers/modal-provider'
+import ToastProvider from '@/providers/toast-provider'
 // import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -27,6 +28,7 @@ export default function RootLayout({
         )}>
         <main className='relative flex flex-col min-h-screen'>
           <ModalProvider />
+          <ToastProvider />
           <Navbar />
           <div className='flex-grow flex-1'>
             {children}

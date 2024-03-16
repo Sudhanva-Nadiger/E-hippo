@@ -1,3 +1,5 @@
+"use client";
+
 import { Product } from "@/types";
 import Image from "next/image";
 import IconButton from "./ui/IconButton";
@@ -13,6 +15,7 @@ import Currency from "./ui/Currency";
 import Link from "next/link";
 import { useModalPreview } from "@/hooks/use-modal-preview";
 import { MouseEventHandler } from "react";
+import { useCart } from "@/hooks/use-cart";
 
 
 export default function ProductCard({
@@ -21,10 +24,20 @@ export default function ProductCard({
     product: Product
 }) {
     const modalPreview = useModalPreview();
+    const cart = useCart();
 
     const onPreview: MouseEventHandler<HTMLButtonElement> = (e) => {
+        e.preventDefault();
         e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         modalPreview.open(product);
+    }
+
+    const addToCart: MouseEventHandler<HTMLButtonElement>  = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        cart.addItem(product);
     }
 
     return (
@@ -52,7 +65,7 @@ export default function ProductCard({
                                     </Tooltip>
                                 </TooltipProvider>
                             </IconButton>
-                            <IconButton className="bg-white">
+                            <IconButton onClick={addToCart} className="bg-white">
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger asChild>

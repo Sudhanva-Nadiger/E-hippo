@@ -52,20 +52,5 @@ export function constructMetadata({
         },
       ],
     },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [image],
-      creator: '@joshtriedcoding',
-    },
-    icons,
-    // metadataBase: new URL(''),
-    ...(noIndex && {
-      robots: {
-        index: false,
-        follow: false,
-      },
-    }),
   }
 }

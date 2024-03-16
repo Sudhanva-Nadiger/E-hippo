@@ -26,7 +26,7 @@ export default function Currency({
 
   return ( 
     <div className="font-semibold">
-      {formatter.format(Number(value))}
+      {formatter.format(parseFloat(value.toString()))}
     </div>
   );
 }
