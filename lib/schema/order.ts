@@ -13,8 +13,8 @@ export const order = pgTable("orders", {
     id: serial("id").primaryKey(),
     storeId: integer("store_id").notNull().references(() => store.id),
     isPaid: boolean("is_paid").default(false),
-    phone: text("phone").notNull(),
-    address: text("address").notNull(),
+    phone: text("phone"),
+    address: text("address"),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow()
 })
