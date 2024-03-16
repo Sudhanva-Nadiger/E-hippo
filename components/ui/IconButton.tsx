@@ -12,6 +12,7 @@ export default function IconButton({
 }) {
     return (
         <Button
+            asChild
             size={"icon"}
             className={cn("rounded-full flex items-center justify-center bg-white border hover:bg-white hover:bg-opacity-80 shadow-md p-2 transition", className)}
         >

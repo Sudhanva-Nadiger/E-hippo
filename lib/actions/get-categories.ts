@@ -10,3 +10,12 @@ export async function getCategories() {
     
     return data as Category[];
 }
+
+export async function getCategoryById(id: string) {
+    const res = await fetch(`${URL}/${id}`, {
+        cache: "no-cache"
+    });
+    const data = await res.json();
+    
+    return data as Category;
+}
