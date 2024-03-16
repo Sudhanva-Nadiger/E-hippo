@@ -1,4 +1,4 @@
-import { Billboard } from '@/components/Billboard'
+import Billboard from '@/components/Billboard'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import { ProductList } from '@/components/ProductList'
 import {
