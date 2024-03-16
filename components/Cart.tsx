@@ -19,6 +19,9 @@ import { ScrollArea } from './ui/scroll-area'
 // import CartItem from './CartItem'
 import { useEffect, useState } from 'react'
 import CartItem from './CartItem'
+import toast from 'react-hot-toast'
+import { useSearchParams } from 'next/navigation'
+import EmptyCart from './EmptyCart'
 
 export default function Cart() {
   const { items } = useCart()
@@ -30,11 +33,24 @@ export default function Cart() {
     setIsMounted(true)
   }, [])
 
+  const searchParams = useSearchParams();
+  const removeAll = useCart((state) => state.removeAll);
+
+  useEffect(() => {
+    if (searchParams.get('success')) {
+      toast.success('Payment completed.');
+      removeAll();
+    }
+
+    if (searchParams.get('canceled')) {
+      toast.error('Something went wrong.');
+    }
+  }, [searchParams, removeAll]);
+
   const cartTotal = items.reduce(
     (total, { price }) => total + parseFloat(price),
     0
   )
-  
 
   return (
     <Sheet>
@@ -51,18 +67,21 @@ export default function Cart() {
         <SheetHeader className='space-y-2.5 pr-6'>
           <SheetTitle>Cart ({itemCount})</SheetTitle>
         </SheetHeader>
+
         {itemCount > 0 ? (
           <ScrollArea>
-            <div className='flex w-full flex-col pr-6'>
-              <ScrollArea>
-                {items.map((item) => (
-                  <CartItem
-                    data={item}
-                    key={item.id}
-                  />
-                ))}
-              </ScrollArea>
-            </div>
+            <SheetFooter>
+              <SheetTrigger asChild>
+                <Link
+                  href='/cart'
+                  className={buttonVariants({
+                    className: 'w-full',
+                  })}>
+                  Continue to Checkout
+                </Link>
+              </SheetTrigger>
+            </SheetFooter>
+
             <div className='space-y-4 pr-6'>
               <Separator />
               <div className='space-y-1.5 text-sm'>
@@ -78,47 +97,21 @@ export default function Cart() {
                   </span>
                 </div>
               </div>
+            </div>
 
-              <SheetFooter>
-                <SheetTrigger asChild>
-                  <Link
-                    href='/cart'
-                    className={buttonVariants({
-                      className: 'w-full',
-                    })}>
-                    Continue to Checkout
-                  </Link>
-                </SheetTrigger>
-              </SheetFooter> 
+            <div className='flex w-full flex-col pr-6'>
+              <ScrollArea>
+                {items.map((item) => (
+                  <CartItem
+                    data={item}
+                    key={item.id}
+                  />
+                ))}
+              </ScrollArea>
             </div>
           </ScrollArea>
         ) : (
-          <div className='flex h-full flex-col items-center justify-center space-y-1'>
-            <div
-              aria-hidden='true'
-              className='relative mb-4 h-60 w-60 text-muted-foreground'>
-              <Image
-                src='/hippo-empty-cart.png'
-                fill
-                alt='empty shopping cart hippo'
-              />
-            </div>
-            <div className='text-xl font-semibold'>
-              Your cart is empty
-            </div>
-            <SheetTrigger asChild>
-              <Link
-                href='/products'
-                className={buttonVariants({
-                  variant: 'link',
-                  size: 'sm',
-                  className:
-                    'text-sm text-muted-foreground',
-                })}>
-                Add items to your cart to checkout
-              </Link>
-            </SheetTrigger>
-          </div>
+          <EmptyCart />
         )}
       </SheetContent>
     </Sheet>
