@@ -58,6 +58,12 @@ E commerce website with Store and custom Admin dashboard.
 
     FRONTEND_STORE_URL=http://localhost:3001
     ```
+    - Push yor schema to databse.
+    ```bash
+    npm run drizzle
+    # or
+    yarn drizzle
+    ```
     ```bash
     npm run admin
     # or
@@ -80,4 +86,6 @@ E commerce website with Store and custom Admin dashboard.
     ```
 
     You can access store now in: https://localhost:3001
+
+### Thank you 🎊
 
