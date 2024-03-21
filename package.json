@@ -6,8 +6,7 @@
   "scripts": {
     "install": "cd admin/ && npm i && cd .. && cd store/ && npm i",
     "store": "cd store/ && npm run dev",
-    "admin": "cd admin && npm run dev",
-    "ehippo": "cd admin/ && npm run dev && cd .. && cd store/ && npm run dev"
+    "admin": "cd admin && npm run dev"
   },
   "author": "",
   "license": "ISC"
