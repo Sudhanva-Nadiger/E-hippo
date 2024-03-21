@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "ecommerce-store",
   "version": "0.1.0",
   "private": true,
@@ -38,4 +39,18 @@
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }
+=======
+  "name": "e-hippo",
+  "version": "1.0.0",
+  "description": "Ecommerce website with admin dashboard and store.",
+  "main": "index.js",
+  "scripts": {
+    "install": "cd admin/ && npm i && cd .. && cd store/ && npm i",
+    "store": "cd store/ && npm run dev",
+    "admin": "cd admin && npm run dev",
+    "ehippo": "cd admin/ && npm run dev && cd .. && cd store/ && npm run dev"
+  },
+  "author": "",
+  "license": "ISC"
+>>>>>>> 855e1f1 (add gitignore)
 }
