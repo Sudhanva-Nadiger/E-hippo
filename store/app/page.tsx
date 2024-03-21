@@ -5,7 +5,6 @@ import {
   Button,
   buttonVariants,
 } from '@/components/ui/button'
-import { getProducts } from '@/lib/actions/get-products'
 import {
   ArrowDownToLine,
   CheckCircle,
@@ -34,7 +33,7 @@ const perks = [
   },
 ]
 
-export default async function Home() {
+export default function Home() {
 
   return (
     <div className='space-y-5'>
