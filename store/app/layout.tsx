@@ -8,6 +8,7 @@ import Navbar from '@/components/NavBar'
 import './globals.css'
 import ModalProvider from '@/providers/modal-provider'
 import ToastProvider from '@/providers/toast-provider'
+import { Suspense } from 'react'
 // import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -27,13 +28,15 @@ export default function RootLayout({
           inter.className
         )}>
         <main className='relative flex flex-col min-h-screen'>
-          <ModalProvider />
-          <ToastProvider />
-          <Navbar />
-          <div className='flex-grow flex-1'>
-            {children}
-          </div>
-          <Footer />
+          <Suspense fallback={<div>Loading...</div>}>
+            <ModalProvider />
+            <ToastProvider />
+            <Navbar />
+            <div className='flex-grow flex-1'>
+              {children}
+            </div>
+            <Footer />
+          </Suspense>
         </main>
 
         {/* <Toaster position='top-center' richColors /> */}
